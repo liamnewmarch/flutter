@@ -9,8 +9,9 @@ void main() {
 class Strings {
   static const appTitle = 'Band name';
   static const nextButtonLabel = 'Sick! Give me another';
-  static const saveButtonLabel = 'Save';
-  static const savedButtonLabel = 'Saved';
+  static const generator = 'Generator';
+  static const save = 'Save';
+  static const saved = 'Saved';
 }
 
 class MyApp extends StatelessWidget {
@@ -49,6 +50,12 @@ class MyAppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeSaved(WordPair value) {
+    if (saved.remove(value)) {
+      notifyListeners();
+    }
+  }
+
   void toggleSaved() {
     if (saved.contains(wordz)) {
       saved.remove(wordz);
@@ -59,16 +66,80 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({
+    super.key,
+  });
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  var selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget page;
+    switch (selectedIndex) {
+      case 0:
+        page = const GeneratorPage();
+        break;
+      case 1:
+        page = const SavedPage();
+        break;
+      default:
+        throw UnimplementedError('No widget for $selectedIndex');
+    }
+
+    return LayoutBuilder(builder: (context, constraints) {
+      return Scaffold(
+        body: Row(
+          children: [
+            SafeArea(
+              child: NavigationRail(
+                extended: constraints.maxWidth >= 640,
+                destinations: const [
+                  NavigationRailDestination(
+                    icon: Icon(Icons.home),
+                    label: Text(Strings.generator),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.favorite),
+                    label: Text(Strings.saved),
+                  ),
+                ],
+                selectedIndex: selectedIndex,
+                onDestinationSelected: (value) {
+                  setState(() {
+                    selectedIndex = value;
+                  });
+                },
+              ),
+            ),
+            Expanded(
+              child: Container(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                child: page,
+              ),
+            ),
+          ],
+        ),
+      );
+    });
+  }
+}
+
+class GeneratorPage extends StatelessWidget {
+  const GeneratorPage({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    var nextButtonLabel = "${appState.wordz.asPascalCase} 🤘";
 
+    var bandName = "${appState.wordz.asPascalCase} 🤘";
     var semanticsLabel = "${appState.wordz.first} ${appState.wordz.second}";
 
     var theme = Theme.of(context);
@@ -81,10 +152,10 @@ class MyHomePage extends StatelessWidget {
     String saveButtonLabel;
     if (appState.saved.contains(appState.wordz)) {
       icon = Icons.favorite;
-      saveButtonLabel = Strings.savedButtonLabel;
+      saveButtonLabel = Strings.saved;
     } else {
       icon = Icons.favorite_border;
-      saveButtonLabel = Strings.saveButtonLabel;
+      saveButtonLabel = Strings.save;
     }
 
     return Scaffold(
@@ -94,7 +165,7 @@ class MyHomePage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: BigCard(nextButtonLabel, semanticsLabel: semanticsLabel),
+              child: BigCard(bandName, semanticsLabel: semanticsLabel),
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
@@ -129,6 +200,62 @@ class MyHomePage extends StatelessWidget {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class SavedPage extends StatelessWidget {
+  const SavedPage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final appState = context.watch<MyAppState>();
+    final theme = Theme.of(context);
+
+    String numSaved;
+    switch (appState.saved.length) {
+      case 0:
+        numSaved = 'You haven’t saved any band names.';
+        break;
+      case 1:
+        numSaved = 'You have 1 band name saved.';
+        break;
+      default:
+        numSaved = 'You have ${appState.saved.length} band names saved.';
+    }
+
+    return Scaffold(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: ListView(
+            children: [
+              Text(numSaved, style: theme.textTheme.headlineSmall),
+              for (var wordz in appState.saved)
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: Text(wordz.asPascalCase),
+                    ),
+                    SizedBox(
+                      height: 50.0,
+                      width: 50.0,
+                      child: TextButton(
+                        onPressed: () {
+                          appState.removeSaved(wordz);
+                        },
+                        child: const Icon(Icons.delete),
+                      ),
+                    ),
+                  ],
+                ),
+            ],
+          ),
         ),
       ),
     );
