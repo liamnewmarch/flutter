@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class Strings {
@@ -24,7 +24,15 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
         ),
-        home: MyHomePage(),
+        darkTheme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            brightness: Brightness.dark,
+            seedColor: Colors.black,
+          ),
+          brightness: Brightness.dark,
+        ),
+        home: const MyHomePage(),
       ),
     );
   }
@@ -40,6 +48,10 @@ class MyAppState extends ChangeNotifier {
 }
 
 class MyHomePage extends StatelessWidget {
+  const MyHomePage({
+    super.key,
+  });
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -48,8 +60,9 @@ class MyHomePage extends StatelessWidget {
 
     var theme = Theme.of(context);
     var buttonStyle = ElevatedButton.styleFrom(
-        backgroundColor: theme.colorScheme.background,
-        foregroundColor: theme.colorScheme.onBackground);
+      backgroundColor: theme.colorScheme.background,
+      foregroundColor: theme.colorScheme.onBackground,
+    );
 
     return Scaffold(
       body: Center(
@@ -67,7 +80,10 @@ class MyHomePage extends StatelessWidget {
                 onPressed: () {
                   appState.getNext();
                 },
-                child: Text(Strings.buttonLabel),
+                child: const Text(
+                  Strings.buttonLabel,
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ],
@@ -98,7 +114,12 @@ class BigCard extends StatelessWidget {
       color: theme.colorScheme.onBackground,
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: Text(data, semanticsLabel: semanticsLabel, style: style),
+        child: Text(
+          data,
+          semanticsLabel: semanticsLabel,
+          style: style,
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }
