@@ -8,7 +8,9 @@ void main() {
 
 class Strings {
   static const appTitle = 'Band name';
-  static const buttonLabel = 'Sick! Give me another';
+  static const nextButtonLabel = 'Sick! Give me another';
+  static const saveButtonLabel = 'Save';
+  static const savedButtonLabel = 'Saved';
 }
 
 class MyApp extends StatelessWidget {
@@ -39,10 +41,20 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
+  var saved = <WordPair>[];
   var wordz = WordPair.random();
 
   void getNext() {
     wordz = WordPair.random();
+    notifyListeners();
+  }
+
+  void toggleSaved() {
+    if (saved.contains(wordz)) {
+      saved.remove(wordz);
+    } else {
+      saved.add(wordz);
+    }
     notifyListeners();
   }
 }
@@ -55,7 +67,8 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    var buttonLabel = "${appState.wordz.asPascalCase} 🤘";
+    var nextButtonLabel = "${appState.wordz.asPascalCase} 🤘";
+
     var semanticsLabel = "${appState.wordz.first} ${appState.wordz.second}";
 
     var theme = Theme.of(context);
@@ -64,6 +77,16 @@ class MyHomePage extends StatelessWidget {
       foregroundColor: theme.colorScheme.onBackground,
     );
 
+    IconData icon;
+    String saveButtonLabel;
+    if (appState.saved.contains(appState.wordz)) {
+      icon = Icons.favorite;
+      saveButtonLabel = Strings.savedButtonLabel;
+    } else {
+      icon = Icons.favorite_border;
+      saveButtonLabel = Strings.saveButtonLabel;
+    }
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -71,20 +94,39 @@ class MyHomePage extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: BigCard(buttonLabel, semanticsLabel: semanticsLabel),
+              child: BigCard(nextButtonLabel, semanticsLabel: semanticsLabel),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(
-                style: buttonStyle,
-                onPressed: () {
-                  appState.getNext();
-                },
-                child: const Text(
-                  Strings.buttonLabel,
-                  textAlign: TextAlign.center,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton.icon(
+                    style: buttonStyle,
+                    onPressed: () {
+                      appState.toggleSaved();
+                    },
+                    icon: Icon(icon),
+                    label: Text(
+                      saveButtonLabel,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    style: buttonStyle,
+                    onPressed: () {
+                      appState.getNext();
+                    },
+                    child: const Text(
+                      Strings.nextButtonLabel,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
