@@ -1,4 +1,22 @@
+import 'package:weather/services/location.dart';
+import 'package:weather/services/networking.dart';
+
 class WeatherModel {
+  LocationHelper locationHelper = LocationHelper();
+  NetworkHelper networkHelper = const NetworkHelper();
+
+  Future getLocationWeather() async {
+    try {
+      // Get location
+      final location = await locationHelper.getCurrentLocation();
+
+      // Fetch data from OpenWeatherMap
+      return await networkHelper.getWeather(location);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   String getWeatherIcon(int condition) {
     if (condition < 300) {
       return '🌩';
@@ -21,11 +39,11 @@ class WeatherModel {
 
   String getMessage(int temp) {
     if (temp > 25) {
-      return 'It\'s 🍦 time';
+      return 'It’s 🍦 time';
     } else if (temp > 20) {
       return 'Time for shorts and 👕';
     } else if (temp < 10) {
-      return 'You\'ll need 🧣 and 🧤';
+      return 'You’ll need 🧣 and 🧤';
     } else {
       return 'Bring a 🧥 just in case';
     }

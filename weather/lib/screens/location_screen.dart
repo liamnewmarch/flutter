@@ -1,16 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:weather/screens/city_screen.dart';
+import 'package:weather/services/weather.dart';
 import 'package:weather/utilities/constants.dart';
 
 class LocationScreen extends StatefulWidget {
   const LocationScreen({
+    required this.weatherData,
     super.key,
   });
+
+  final dynamic weatherData;
 
   @override
   State<LocationScreen> createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  WeatherModel weatherModel = WeatherModel();
+  String? icon;
+  String? message;
+  int? temp;
+
+  @override
+  void initState() {
+    super.initState();
+    updateUI(widget.weatherData);
+  }
+
+  void updateUI(dynamic data) {
+    setState(() {
+      try {
+        String city = (data['name']);
+        icon = weatherModel.getWeatherIcon(data['weather'][0]['id']);
+        temp = (data['main']['temp']).toInt();
+        message = '${weatherModel.getMessage(temp!)} in $city!';
+      } catch (e) {
+        icon = ' ???';
+        temp = 0;
+        message = 'Unable to get weather data';
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,14 +64,21 @@ class _LocationScreenState extends State<LocationScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      updateUI(await weatherModel.getLocationWeather());
+                    },
                     child: const Icon(
                       Icons.near_me,
                       size: 50.0,
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (BuildContext context) {
+                        return const CityScreen();
+                      }));
+                    },
                     child: const Icon(
                       Icons.location_city,
                       size: 50.0,
@@ -48,25 +86,25 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
                 ],
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 15.0),
+              Padding(
+                padding: const EdgeInsets.only(left: 15.0),
                 child: Row(
                   children: <Widget>[
                     Text(
-                      '32°',
+                      '$temp°C',
                       style: kTempTextStyle,
                     ),
                     Text(
-                      '☀️',
+                      '$icon',
                       style: kConditionTextStyle,
                     ),
                   ],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(right: 15.0),
+              Padding(
+                padding: const EdgeInsets.only(right: 15.0),
                 child: Text(
-                  "It's 🍦 time in San Francisco!",
+                  '$message',
                   textAlign: TextAlign.right,
                   style: kMessageTextStyle,
                 ),
