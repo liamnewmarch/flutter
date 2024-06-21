@@ -25,22 +25,36 @@ class BMIHeight extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(label, style: BMITextStyle.labelTextStyle),
+        Text(label, style: BMITextStyle.label),
         Row(
           crossAxisAlignment: CrossAxisAlignment.baseline,
           mainAxisAlignment: MainAxisAlignment.center,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Text('$value', style: BMITextStyle.numberTextStyle),
-            Text(units, style: BMITextStyle.labelTextStyle),
+            Text('$value', style: BMITextStyle.number),
+            Text(units, style: BMITextStyle.label),
           ],
         ),
-        Slider(
-          onChanged: onChanged,
-          activeColor: BMIColors.accent,
-          max: max.toDouble(),
-          min: min.toDouble(),
-          value: value.toDouble(),
+        SliderTheme(
+          data: SliderTheme.of(context).copyWith(
+            activeTrackColor: Colors.white,
+            inactiveTrackColor: BMIColors.midGrey,
+            overlayColor: BMIColors.accent.withAlpha(0x29),
+            overlayShape: const RoundSliderOverlayShape(
+              overlayRadius: 30,
+            ),
+            thumbColor: BMIColors.accent,
+            thumbShape: const RoundSliderThumbShape(
+              enabledThumbRadius: 15,
+            ),
+            trackHeight: 1,
+          ),
+          child: Slider(
+            onChanged: onChanged,
+            max: max.toDouble(),
+            min: min.toDouble(),
+            value: value.toDouble(),
+          ),
         ),
       ],
     );

@@ -1,7 +1,10 @@
+import 'package:bmi_calculator/bmi.dart';
+import 'package:bmi_calculator/pages/result.dart';
 import 'package:bmi_calculator/theme/colors.dart';
+import 'package:bmi_calculator/widgets/calculate.dart';
 import 'package:bmi_calculator/widgets/card.dart';
-import 'package:bmi_calculator/widgets/footer.dart';
 import 'package:bmi_calculator/widgets/height.dart';
+import 'package:bmi_calculator/widgets/metric.dart';
 import 'package:bmi_calculator/widgets/sex.dart';
 import 'package:flutter/material.dart';
 
@@ -16,13 +19,14 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> {
   Sex? activeSex;
+  int age = 18;
   int height = 180;
+  int weight = 70;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         title: const Text('BMI Calculator'),
       ),
       body: Column(
@@ -60,15 +64,33 @@ class _InputPageState extends State<InputPage> {
               ),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Row(
               children: [
-                Expanded(child: BMICard()),
-                Expanded(child: BMICard()),
+                Expanded(
+                  child: BMICard(
+                    child: BMIMetric('Weight', weight, onChanged: (int value) {
+                      setState(() => weight = value);
+                    }),
+                  ),
+                ),
+                Expanded(
+                  child: BMICard(
+                    child: BMIMetric('Age', age, onChanged: (int value) {
+                      setState(() => age = value);
+                    }),
+                  ),
+                ),
               ],
             ),
           ),
-          const BMIFooter(),
+          BMICalculate('Calculate', onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) {
+              return ResultPage(
+                bmi: BMI(weight: weight, height: height),
+              );
+            }));
+          }),
         ],
       ),
     );

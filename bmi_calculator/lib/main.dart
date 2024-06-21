@@ -14,16 +14,23 @@ class BMICalculator extends StatelessWidget {
     return MaterialApp(
       darkTheme: ThemeData(
         useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
+        ),
         colorScheme: const ColorScheme.dark().copyWith(
           background: BMIColors.darkBackground,
         ),
       ),
       theme: ThemeData(
         useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.transparent,
+        ),
         colorScheme: ColorScheme.fromSeed(
           seedColor: BMIColors.darkBackground,
         ),
       ),
+      themeMode: ThemeMode.dark, // TODO fix colours in light mode
       home: const InputPage(),
     );
   }

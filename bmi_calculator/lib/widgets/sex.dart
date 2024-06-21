@@ -38,7 +38,7 @@ class BMISex extends StatelessWidget {
       children: [
         Icon(icon, size: 80),
         const SizedBox(height: 15),
-        Text(label, style: BMITextStyle.labelTextStyle),
+        Text(label, style: BMITextStyle.label),
       ],
     );
   }
