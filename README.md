@@ -23,3 +23,8 @@ Tutorials followed so far:
 ### xylophone
 
 ![](/images/xylophone.png)
+
+## bmi_calculator
+
+![](/images/bmi_calculator_input.png)
+![](/images/bmi_calculator_result.png)
