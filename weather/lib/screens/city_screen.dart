@@ -11,6 +11,8 @@ class CityScreen extends StatefulWidget {
 }
 
 class _CityScreenState extends State<CityScreen> {
+  String? userSearchQuery;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +43,7 @@ class _CityScreenState extends State<CityScreen> {
                 padding: const EdgeInsets.all(20.0),
                 child: TextField(
                   onChanged: (value) {
-                    print(value);
+                    userSearchQuery = value;
                   },
                   decoration: kTextFieldInputDecoration,
                   style: const TextStyle(
@@ -50,7 +52,9 @@ class _CityScreenState extends State<CityScreen> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context, userSearchQuery);
+                },
                 child: const Text(
                   'Get Weather',
                   style: kButtonTextStyle,

@@ -5,13 +5,22 @@ class WeatherModel {
   LocationHelper locationHelper = LocationHelper();
   NetworkHelper networkHelper = const NetworkHelper();
 
+  Future getCityWeather(String city) async {
+    try {
+      // Fetch data from OpenWeatherMap
+      return await networkHelper.getWeatherForCity(city);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future getLocationWeather() async {
     try {
       // Get location
       final location = await locationHelper.getCurrentLocation();
 
       // Fetch data from OpenWeatherMap
-      return await networkHelper.getWeather(location);
+      return await networkHelper.getWeatherForLocation(location);
     } catch (e) {
       print(e);
     }
