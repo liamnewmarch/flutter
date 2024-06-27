@@ -1,96 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/models/list.dart';
+import 'package:todo/screens/tasks.dart';
 
 void main() => runApp(const TodoApp());
 
 class TodoApp extends StatelessWidget {
-  const TodoApp({
-    super.key,
-  });
+  const TodoApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<Data>(
-      create: (context) => Data(),
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => TodoList(),
       child: MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(
-            title: const MyText(),
+        home: const TasksScreen(),
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            brightness: Brightness.light,
+            seedColor: Colors.lightBlueAccent,
+          ).copyWith(
+            primary: Colors.lightBlueAccent,
+            primaryContainer: Colors.lightBlueAccent,
+            onPrimaryContainer: Colors.white,
           ),
-          body: const Level1(),
+          useMaterial3: true,
+        ),
+        darkTheme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+            brightness: Brightness.dark,
+            seedColor: Colors.lightBlueAccent,
+          ).copyWith(
+            primary: Colors.lightBlueAccent,
+            onPrimaryContainer: Colors.lightBlueAccent,
+          ),
+          useMaterial3: true,
         ),
       ),
     );
-  }
-}
-
-class Level1 extends StatelessWidget {
-  const Level1({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const Level2();
-  }
-}
-
-class Level2 extends StatelessWidget {
-  const Level2({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        MyTextField(),
-        Level3(),
-      ],
-    );
-  }
-}
-
-class Level3 extends StatelessWidget {
-  const Level3({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(Provider.of<Data>(context).data);
-  }
-}
-
-class MyText extends StatelessWidget {
-  const MyText({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(Provider.of<Data>(context, listen: false).data);
-  }
-}
-
-class MyTextField extends StatelessWidget {
-  const MyTextField({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      onChanged: (newText) {
-        Provider.of<Data>(context).changeString(newText);
-      },
-    );
-  }
-}
-
-class Data extends ChangeNotifier {
-  String data = 'Some data';
-
-  void changeString(String newString) {
-    data = newString;
-    notifyListeners();
   }
 }
