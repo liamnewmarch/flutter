@@ -2,29 +2,40 @@
 
 This is a playground for projects as I learn Flutter. Nothing here is intended to be polished or even functional.
 
-Tutorials followed so far:
+## Projects
 
-1. [hello_world](/hello_world/) – A ‘Hello, world’ button click counter adapted from Flutter’s [‘Test drive’](https://docs.flutter.dev/get-started/test-drive) getting started project.
-2. [band_name](/band_name/) – A band name generator adapted from Flutter’s [‘Write your first app’](https://docs.flutter.dev/get-started/codelab) codelab.
-3. [xylophone](/xylophone/) – A musical instrument adapted from App Brewery’s [Xylophone](https://github.com/londonappbrewery/Flutter-Course-Resources?tab=readme-ov-file#section-9-xylophone---using-flutter-and-dart-packages-to-speed-up-development) project as part of their [Udemy course](https://www.udemy.com/course/flutter-bootcamp-with-dart/).
-4. [bmi_calculator](/bmi_calculator/) – A body mass index calculator adapted from App Brewery’s [BMI Calculator](https://github.com/londonappbrewery/Flutter-Course-Resources?tab=readme-ov-file#section-12-bmi-calculator---building-flutter-uis-for-intermediates) project as part of their [Udemy course](https://www.udemy.com/course/flutter-bootcamp-with-dart/).
+### [Hello, world](/hello_world/)
 
-## Screenshots
+A ‘Hello, world’ button click counter based on Flutter’s [‘Test drive’](https://docs.flutter.dev/get-started/test-drive) getting started project.
 
-### hello_world
+<img src="images/hello_world.png" width="308">
 
-![](/images/hello_world.png)
 
-### band_name
+### [Band name generator](/band_name/)
 
-![](/images/band_name_light.png)
-![](/images/band_name_dark.png)
+A band name generator based on Flutter’s [‘Write your first app’](https://docs.flutter.dev/get-started/codelab) codelab.
 
-### xylophone
+<img src="images/band_name_light.png" width="308">
+<img src="images/band_name_dark.png" width="308">
 
-![](/images/xylophone.png)
+### [Xylophone](/xylophone/)
 
-## bmi_calculator
+A xylophone musical instrument based on App Brewery’s [Xylophone](https://github.com/londonappbrewery/Flutter-Course-Resources?tab=readme-ov-file#section-9-xylophone---using-flutter-and-dart-packages-to-speed-up-development) project (part of the [Flutter bootcamp with Dart](https://www.udemy.com/course/flutter-bootcamp-with-dart/) Udemy course).
 
-![](/images/bmi_calculator_input.png)
-![](/images/bmi_calculator_result.png)
+<img src="images/xylophone.png" width="308">
+
+### [BMI Calculator](/bmi_calculator/)
+
+A body mass index calculator based on App Brewery’s [BMI Calculator](https://github.com/londonappbrewery/Flutter-Course-Resources?tab=readme-ov-file#section-12-bmi-calculator---building-flutter-uis-for-intermediates) project (part of the [Flutter bootcamp with Dart](https://www.udemy.com/course/flutter-bootcamp-with-dart/) Udemy course).
+
+<img src="images/bmi_calculator_input.png" width="308">
+<img src="images/bmi_calculator_result.png" width="308">
+
+5. [weather](/weather/) – A weather app powered by OpenWeatherMap based on App Brewery’s [Clima](https://github.com/londonappbrewery/Flutter-Course-Resources?tab=readme-ov-file#section-13-clima---powering-your-flutter-app-with-live-weather-web-data) project (part of the [Flutter bootcamp with Dart](https://www.udemy.com/course/flutter-bootcamp-with-dart/) Udemy course).
+
+<img src="images/weather.png" width="308">
+
+6. [todo](/todo) – A to-do list app based on from App Brewery’s [Todoey](https://github.com/londonappbrewery/Flutter-Course-Resources?tab=readme-ov-file#section-13-clima---powering-your-flutter-app-with-live-weather-web-data) project (part of the [Flutter bootcamp with Dart](https://www.udemy.com/course/flutter-bootcamp-with-dart/) Udemy course).
+
+<img src="images/todo_light.png" width="308">
+<img src="images/todo_dark.png" width="308">
