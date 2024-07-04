@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-
 import 'content/global.dart';
 import 'pages/home.dart';
-import 'theme/colors.dart';
+import 'theme/dark.dart';
+import 'theme/light.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -15,11 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: appName,
-      theme: ThemeData(
-        brightness: Brightness.light,
-        colorScheme: ColorScheme.fromSeed(seedColor: purple),
-        useMaterial3: true,
-      ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       home: const HomePage(),
     );
   }
