@@ -66,19 +66,9 @@ class HomeContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 32.0),
-              child: MenuButton(
-                onPressed: () {
-                  showDialog(
-                    barrierColor: purple90,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return const MenuPage(active: 'Home');
-                    },
-                  );
-                },
-              ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 32.0),
+              child: MenuSwitcher(),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -193,6 +183,105 @@ class HomeContent extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class MenuSwitcher extends StatefulWidget {
+  const MenuSwitcher({
+    super.key,
+  });
+
+  @override
+  State<MenuSwitcher> createState() => _MenuSwitcherState();
+}
+
+class _MenuSwitcherState extends State<MenuSwitcher> {
+  bool logoHover = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth > 800.0) {
+        return Center(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(32.0),
+              color: Colors.white,
+            ),
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextButton(
+                  onHover: (bool hover) {
+                    setState(() {
+                      logoHover = hover;
+                    });
+                  },
+                  onPressed: () {},
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        logoHover ? colorScheme.secondary : colorScheme.primary,
+                    padding: EdgeInsets.zero,
+                  ),
+                  child: SvgPicture.asset(
+                    'assets/svg/potato.svg',
+                    width: 54.0,
+                    height: 54.0,
+                  ),
+                ),
+                const SizedBox(width: 8.0),
+                const MenuItemDesktop('Work'),
+                const MenuItemDesktop('Services'),
+                const MenuItemDesktop('Culture'),
+                const MenuItemDesktop('Careers'),
+                const MenuItemDesktop('Blog'),
+                const MenuItemDesktop('Contact'),
+              ],
+            ),
+          ),
+        );
+      } else {
+        return MenuButton(
+          onPressed: () {
+            showDialog(
+              barrierColor: purple90,
+              context: context,
+              builder: (BuildContext context) {
+                return const MenuPage(active: 'Home');
+              },
+            );
+          },
+        );
+      }
+    });
+  }
+}
+
+class MenuItemDesktop extends StatelessWidget {
+  const MenuItemDesktop(this.label, {super.key});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    return TextButton(
+      onPressed: () {
+        print('Menu item clicked: $label');
+      },
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.all(16.0),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: colorScheme.surface,
+          fontSize: 24.0,
         ),
       ),
     );

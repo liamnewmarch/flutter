@@ -41,11 +41,10 @@ class MenuButton extends StatelessWidget {
               ),
               const Padding(
                 padding: EdgeInsets.only(left: 24.0, right: 48.0),
-                child: Text(menu,
-                    style: TextStyle(
-                      color: black,
-                      fontSize: 24.0,
-                    )),
+                child: Text(
+                  menu,
+                  style: TextStyle(color: black, fontSize: 24.0),
+                ),
               ),
             ],
           ),

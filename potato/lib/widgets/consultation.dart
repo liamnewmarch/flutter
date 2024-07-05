@@ -27,11 +27,11 @@ class ConsultationBanner extends StatelessWidget {
               text: TextSpan(
                 children: [
                   TextSpan(
-                    text: consultationBannerParts.sublist(0, 4).join(' '),
+                    text: '${consultationBannerParts.join(' ')} ',
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16.0,
                       color: color,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                   WidgetSpan(
