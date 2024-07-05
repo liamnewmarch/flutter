@@ -18,7 +18,7 @@ class MenuClose extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
           fixedSize: const Size(64.0, 64.0),
-          shape: const CircleBorder(side: BorderSide(width: 64.0)),
+          shape: const CircleBorder(side: BorderSide.none),
         ),
         child: const Icon(Icons.close, color: black, size: 32.0),
       ),

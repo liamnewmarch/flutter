@@ -3,8 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import '../content/global.dart';
 import '../theme/colors.dart';
 
-class Menu extends StatelessWidget {
-  const Menu({
+class MenuButton extends StatelessWidget {
+  const MenuButton({
     this.onPressed,
     super.key,
   });

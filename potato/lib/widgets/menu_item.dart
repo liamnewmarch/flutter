@@ -24,7 +24,6 @@ class MenuItem extends StatelessWidget {
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.white,
-          padding: const EdgeInsets.all(24.0),
           fixedSize: const Size(168.0, 64.0),
         ),
         child: Text(

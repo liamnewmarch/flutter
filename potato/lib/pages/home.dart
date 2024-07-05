@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:potato/widgets/home_grid.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../content/global.dart';
 import '../content/home.dart';
@@ -30,144 +31,166 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: colorScheme.tertiary,
-        foregroundColor: colorScheme.onTertiary,
-        title: ConsultationBanner(
-          color: colorScheme.onTertiary,
-          onPressed: href('http://bit.ly/potatoradar'),
-        ),
-        titleSpacing: 0,
+      body: ListView(
+        children: [
+          Column(
+            children: [
+              ConsultationBanner(
+                backgroundColor: colorScheme.tertiary,
+                color: colorScheme.onTertiary,
+                onPressed: href('http://bit.ly/potatoradar'),
+              ),
+              HomeContent(colorScheme: colorScheme),
+            ],
+          ),
+        ],
       ),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(16.0),
+    );
+  }
+}
+
+class HomeContent extends StatelessWidget {
+  const HomeContent({
+    super.key,
+    required this.colorScheme,
+  });
+
+  final ColorScheme colorScheme;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Column(
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32.0),
+              child: MenuButton(
+                onPressed: () {
+                  showDialog(
+                    barrierColor: purple90,
+                    context: context,
+                    builder: (BuildContext context) {
+                      return const MenuPage(active: 'Home');
+                    },
+                  );
+                },
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Text(
+                heroParts.join(' '),
+                style: const TextStyle(
+                  fontSize: 28.0,
+                  fontWeight: FontWeight.w500,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(32.0),
+              child: HomeGrid(
+                columnsToTry: const [6, 3, 2, 1],
+                crossAxisItemExtent: 216.0,
+                gap: const HomeGridGap(
+                  horizontal: 16.0,
+                  vertical: 16.0,
+                ),
+                children: [
+                  for (final card in cards) HomeCard(card),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: href('https://p.ota.to/sitemap'),
+                    child: Text(
+                      sitemap,
+                      style: TextStyle(color: colorScheme.onSurface),
+                    ),
+                  ),
+                  const Text('—'),
+                  TextButton(
+                    onPressed: href('https://p.ota.to/privacy'),
+                    child: Text(
+                      privacyPolicy,
+                      style: TextStyle(color: colorScheme.onSurface),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Menu(
-                    onPressed: () {
-                      showDialog(
-                        barrierColor: purple90,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return const MenuPage(active: 'Home');
-                        },
-                      );
-                    },
+                TextButton(
+                  onPressed: href('https://www.linkedin.com/company/potato/'),
+                  child: SvgPicture.asset(
+                    'assets/svg/linkedin.svg',
+                    color: colorScheme.onSurface,
+                    width: 24.0,
+                    height: 24.0,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0, bottom: 32.0),
-                  child: Text(
-                    heroParts.join(' '),
-                    style: const TextStyle(
-                      fontSize: 28.0,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 32.0, bottom: 32.0),
-                  child: Column(
-                    children: [
-                      for (final card in cards) HomeCard(card),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextButton(
-                        onPressed: href('https://p.ota.to/sitemap'),
-                        child: Text(
-                          sitemap,
-                          style: TextStyle(color: colorScheme.onSurface),
-                        ),
-                      ),
-                      const Text('—'),
-                      TextButton(
-                        onPressed: href('https://p.ota.to/privacy'),
-                        child: Text(
-                          privacyPolicy,
-                          style: TextStyle(color: colorScheme.onSurface),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
-                      onPressed:
-                          href('https://www.linkedin.com/company/potato/'),
-                      child: SvgPicture.asset(
-                        'assets/svg/linkedin.svg',
-                        color: colorScheme.onSurface,
-                        width: 24.0,
-                        height: 24.0,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: href('https://twitter.com/PotatoStudios_'),
-                      child: SvgPicture.asset(
-                        'assets/svg/x.svg',
-                        color: colorScheme.onSurface,
-                        width: 24.0,
-                        height: 24.0,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: href('https://youtube.com/@LifeAtPotato'),
-                      child: SvgPicture.asset(
-                        'assets/svg/youtube.svg',
-                        color: colorScheme.onSurface,
-                        width: 24.0,
-                        height: 24.0,
-                      ),
-                    ),
-                  ],
                 ),
                 TextButton(
-                  onPressed: href('https://goo.gl/maps/1DMyLJx6JMMCKyWM9'),
-                  child: Text(
-                    address,
-                    style: TextStyle(color: colorScheme.onSurface),
+                  onPressed: href('https://twitter.com/PotatoStudios_'),
+                  child: SvgPicture.asset(
+                    'assets/svg/x.svg',
+                    color: colorScheme.onSurface,
+                    width: 24.0,
+                    height: 24.0,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/potato-wordmark.svg",
-                          color: colorScheme.onSurface,
-                        ),
-                      ),
-                      Text(footerParts[1]),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: SvgPicture.asset(
-                          "assets/svg/akqa.svg",
-                          color: colorScheme.onSurface,
-                        ),
-                      ),
-                      Text(footerParts[3]),
-                    ],
+                TextButton(
+                  onPressed: href('https://youtube.com/@LifeAtPotato'),
+                  child: SvgPicture.asset(
+                    'assets/svg/youtube.svg',
+                    color: colorScheme.onSurface,
+                    width: 24.0,
+                    height: 24.0,
                   ),
                 ),
               ],
+            ),
+            TextButton(
+              onPressed: href('https://goo.gl/maps/1DMyLJx6JMMCKyWM9'),
+              child: Text(
+                address,
+                style: TextStyle(color: colorScheme.onSurface),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: SvgPicture.asset(
+                      "assets/svg/potato-wordmark.svg",
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
+                  Text(footerParts[1]),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                    child: SvgPicture.asset(
+                      "assets/svg/akqa.svg",
+                      color: colorScheme.onSurface,
+                    ),
+                  ),
+                  Text(footerParts[3]),
+                ],
+              ),
             ),
           ],
         ),
